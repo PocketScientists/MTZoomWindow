@@ -85,8 +85,9 @@
         } else if (statusBarOrientation == UIInterfaceOrientationPortraitUpsideDown) {
             [self setupForOrientation:UIInterfaceOrientationPortrait forceLayout:YES];
         }
-        self.frame = [UIScreen mainScreen].bounds;
-
+        
+        self.frame = [MTZoomWindow windowBounds];
+        
         // register for orientation change notification
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(orientationWillChange:)
@@ -259,6 +260,16 @@
 #pragma mark - Private
 ////////////////////////////////////////////////////////////////////////
 
++ (CGRect)windowBounds {
+    if ([[UIScreen mainScreen] respondsToSelector:@selector(nativeBounds)]) {
+        CGRect bounds = [UIScreen mainScreen].nativeBounds;
+        
+        return CGRectMake(bounds.origin.x, bounds.origin.y, bounds.size.width / [UIScreen mainScreen].scale, bounds.size.height / [UIScreen mainScreen].scale);
+    }
+    
+    return [UIScreen mainScreen].bounds;
+}
+
 - (void)handleGesture:(UIGestureRecognizer *)gestureRecognizer {
     if (gestureRecognizer.state == UIGestureRecognizerStateRecognized) {
         [self.zoomedView zoomOut];
@@ -381,7 +392,7 @@
     //if ([self shouldAutorotateToInterfaceOrientation:[[UIApplication sharedApplication] statusBarOrientation]] == NO)
 	//	return;
     
-	self.frame = [UIScreen mainScreen].bounds;
+	self.frame = [MTZoomWindow windowBounds];
 }
 
 ////////////////////////////////////////////////////////////////////////

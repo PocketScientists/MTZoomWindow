@@ -116,6 +116,10 @@
 ////////////////////////////////////////////////////////////////////////
 
 - (void)zoomView:(UIView *)view toSize:(CGSize)size {
+    [self zoomView:view toSize:size completion:nil];
+}
+
+- (void)zoomView:(UIView *)view toSize:(CGSize)size completion:(dispatch_block_t)completion {
     self.zoomedView = view;
 
     // save frames before zoom operation
@@ -146,12 +150,20 @@
                          if ([delegate respondsToSelector:@selector(zoomWindow:didZoomInView:)]) {
                              [delegate zoomWindow:self didZoomInView:view];
                          }
-
+                         
+                         if (completion != nil) {
+                             completion();
+                         }
+                         
                          [self.scrollView flashScrollIndicators];
                      }];
 }
 
 - (void)zoomOut {
+    [self zoomOut:nil];
+}
+
+- (void)zoomOut:(dispatch_block_t)completion {
     if (self.zoomedIn) {
         CGRect destinationFrameInWindow = [self.zoomedView.zoomPlaceholderView convertRect:self.zoomedView.zoomPlaceholderView.bounds toView:self];
 
@@ -181,7 +193,11 @@
                              if ([delegate respondsToSelector:@selector(zoomWindow:didZoomOutView:)]) {
                                  [delegate zoomWindow:self didZoomOutView:self.zoomedView];
                              }
-
+                             
+                             if (completion != nil) {
+                                 completion();
+                             }
+                             
                              self.zoomedView = nil;
                          }];
     }

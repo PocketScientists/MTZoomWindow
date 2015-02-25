@@ -28,6 +28,10 @@ static char delegateKey;
 ////////////////////////////////////////////////////////////////////////
 
 - (void)zoomIn {
+    [self zoomIn:nil];
+}
+
+- (void)zoomIn:(dispatch_block_t)completion {
     MTZoomWindow *zoomWindow = [MTZoomWindow sharedWindow];
     
     if (!zoomWindow.zoomedIn) {
@@ -42,17 +46,21 @@ static char delegateKey;
         [self mt_callDelegateWillZoomIn];
         
         // Zoom view into fullscreen-mode and call delegate
-        [zoomWindow zoomView:self toSize:self.zoomedSize];
+        [zoomWindow zoomView:self toSize:self.zoomedSize completion:completion];
     }
 }
 
 - (void)zoomOut {
+    [self zoomOut:nil];
+}
+
+- (void)zoomOut:(dispatch_block_t)completion {
     MTZoomWindow *zoomWindow = [MTZoomWindow sharedWindow];
     
     [self mt_callDelegateWillZoomOut];
     
     // zoom view back to original frame and call delegate
-    [zoomWindow zoomOut];
+    [zoomWindow zoomOut:completion];
 }
 
 - (void)toggleZoomState {

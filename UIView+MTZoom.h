@@ -31,8 +31,25 @@
 /** Flag that indicates if the view is currently zoomed in */
 @property (nonatomic, readonly, getter = isZoomedIn) BOOL zoomedIn; 
 
+/** Resizes view to the specified size in zoomedSize */
 - (void)zoomIn;
+
+/** Resizes view to the specified size in zoomedSize
+ *
+ * @param completion exectued after zoom animation is finished
+ */
+- (void)zoomIn:(dispatch_block_t)completion;
+
+/** Resizes view back to the original size */
 - (void)zoomOut;
+
+/** Resizes view back to the original size
+ *
+ * @param completion exectued after zoom animation is finished
+ */
+- (void)zoomOut:(dispatch_block_t)completion;
+
+/// executes zoomIn or zoomOut depending on state property zoomedIn
 - (void)toggleZoomState;
 
 @end

@@ -386,7 +386,10 @@
 			}
 			break;
 		}
-	}
+
+        case UIInterfaceOrientationUnknown:
+            return;
+    }
 
 	CGAffineTransform rotation = CGAffineTransformMakeRotation(angle);
 

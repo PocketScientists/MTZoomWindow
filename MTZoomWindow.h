@@ -42,14 +42,14 @@ typedef NSInteger MTZoomGestureMask;
 /** Resizes view
  *
  * @param view targeted view for zooming
- * @param toSize size of view when zooming completes
+ * @param size size of view when zooming completes
  */
 - (void)zoomView:(UIView *)view toSize:(CGSize)size;
 
 /** Resizes view
  *
  * @param view targeted view for zooming
- * @param toSize size of view when zooming completes
+ * @param size size of view when zooming completes
  * @param completion exectued after zoom animation is finished
  */
 - (void)zoomView:(UIView *)view toSize:(CGSize)size completion:(dispatch_block_t)completion;
